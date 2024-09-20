@@ -1,4 +1,5 @@
 import uuid
+import secrets
 
 from django.db.models.deletion import PROTECT
 from django.db import models
@@ -78,10 +79,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 #Search Bar Models:
 
 class Webpage(models.Model):
+
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True)
     url = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     
+    token = models.CharField(max_length=32, default=secrets.token_hex(16), unique=True, editable=False)
+
     def __str__(self) -> str:
         return self.title
 
